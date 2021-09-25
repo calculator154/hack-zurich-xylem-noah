@@ -1,10 +1,8 @@
 import React from "react";
 import * as SR from "semantic-ui-react";
-import * as RD from "react-router-dom"
+import * as RD from "react-router-dom";
 
 export const HomePage: React.FC<{}> = () => {
-
-
   return (
     <SR.Container fluid>
       <SR.Segment inverted color="yellow" style={{ height: "320px" }}>
@@ -24,13 +22,10 @@ export const HomePage: React.FC<{}> = () => {
           </SR.Grid.Column>
 
           <SR.Grid.Column width={8}>
-            <SR.Button
-              fluid
-              content="Recommendation"
-            />
+            <SR.Button fluid content="Recommendation" />
           </SR.Grid.Column>
         </SR.Grid.Row>
       </SR.Grid>
     </SR.Container>
-  )
-}
+  );
+};
