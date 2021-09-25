@@ -35,49 +35,30 @@ export const MapPage: React.FC<{}> = () => {
 
 
     // Polygon
-
-    //const fillSymbol = {
-    //  type: Po, // autocasts as new SimpleFillSymbol()
-    //  color: "blue",
-    //  outline: {
-    //    // autocasts as new SimpleLineSymbol()
-    //    color: "blue",
-    //    width: 2
-    //  }
-    //};
-
     const fillSymbol = new PolygonSymbol3D({
 
         symbolLayers: [
-        {
-            type: "fill",
-            material: {color:  "red"}
-            }
-            //{
-            //    type: "water",
-            //    waveDirection: 180,
-            //    color: "#5975a3",
-            //    waveStrength: "moderate",
-            //    waterbodySize: "medium"
-            // }
+            {
+                type: "water",
+                waveDirection: 180,
+                color: "#5975a3",
+                waveStrength: "moderate",
+                waterbodySize: "medium"
+             }
             ]
 
         });
 
     // Polygon location
-    const rings = [[
-      [8.515599, 47.389842, 490],
-      [8.515599, 47.399842, 490],
-      [8.505599, 47.399842, 490],
-      [8.505599, 47.389842, 490],
-      [8.515599, 47.389842, 490],
-    ], [
-      [8.515599, 47.389842, 0],
-      [8.515599, 47.399842, 0],
-      [8.505599, 47.399842, 0],
-      [8.505599, 47.389842, 0],
-      [8.515599, 47.389842, 0],
-    ]]
+    const rings = [
+        [
+          [8.615599, 47.289842, -60],
+          [8.615599, 47.599842, -60],
+          [8.305599, 47.599842, -60],
+          [8.305599, 47.289842, -60],
+          [8.615599, 47.289842, -60],
+        ],
+    ]
     const polygon = new Polygon({
         hasZ: true,
         hasM: false,
@@ -93,22 +74,13 @@ export const MapPage: React.FC<{}> = () => {
     // Graphic Layer
     const graphicsLayer = new GraphicsLayer({
           elevationInfo: {
-            mode: "on-the-ground"
+            mode: "relative-to-scene"
           },
 
     });
     graphicsLayer.add(polygonGraphic);
     map.add(graphicsLayer);
 
-
-
-    //// Set map view
-    //let view = new MapView({
-    //  map: map,
-    //  center: [8.515599, 47.389842],  // Zurich: 47.3769° N, 8.5417° E
-    //  zoom: 12,
-    //  container: mapEl.current
-    //})
 
     // Set scene view
     const view = new SceneView({
@@ -119,7 +91,10 @@ export const MapPage: React.FC<{}> = () => {
       container: mapEl.current,
     });
 
-    (window as any)["view"] = view;
+
+
+    // For debug
+    //(window as any)["view"] = view;
 
     // Destuctor
     return () => {
