@@ -14,8 +14,12 @@ import Polygon from "@arcgis/core/geometry/Polygon";
 import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D";
 import esriConfig from "@arcgis/core/config";
 
+// Time - flood level array
+const time_floodLevel = [-80, -75, -70, -65, -62, -60, -57, -53, -50, -45, -40, -35];
+
+
 export const MapPage: React.FC<{}> = () => {
-  const [sliderValue, setSliderValue] = React.useState(1);
+  const [sliderValue, setSliderValue] = React.useState(0);
   const [lastUpdated, setLastUpdated] = React.useState(Date.now());
   const mapEl = React.useRef(null);
 
@@ -48,13 +52,14 @@ export const MapPage: React.FC<{}> = () => {
     });
 
     // Polygon location
+    const floodLevel = time_floodLevel[sliderValue];
     const rings = [
       [
-        [8.615599, 47.289842, -60],
-        [8.615599, 47.599842, -60],
-        [8.305599, 47.599842, -60],
-        [8.305599, 47.289842, -60],
-        [8.615599, 47.289842, -60],
+        [8.615599, 47.289842, floodLevel],
+        [8.615599, 47.599842, floodLevel],
+        [8.305599, 47.599842, floodLevel],
+        [8.305599, 47.289842, floodLevel],
+        [8.615599, 47.289842, floodLevel],
       ],
     ];
     const polygon = new Polygon({
@@ -82,8 +87,8 @@ export const MapPage: React.FC<{}> = () => {
     const view = new SceneView({
       // An instance of Map or WebScene
       map: map,
-      center: [8.515599, 47.389842], // Zurich: 47.3769° N, 8.5417° E
-      zoom: 15,
+      center: [8.530599, 47.382842], // Zurich: 47.3769° N, 8.5417° E
+      zoom: 14,
       container: mapEl.current,
     });
 
@@ -97,7 +102,7 @@ export const MapPage: React.FC<{}> = () => {
         view.destroy();
       }
     };
-  }, [lastUpdated]);
+  }, [lastUpdated, sliderValue]);
 
   // Dummy button that cycles the color at fixed ID (at Technopark).
   const onClick = () => {
@@ -150,8 +155,8 @@ export const MapPage: React.FC<{}> = () => {
       <SR.Button content="Change My Color" onClick={onClick} />
       {`Time ${sliderValue}`}
       <SR.Input
-        min={1}
-        max={9}
+        min={0}
+        max={time_floodLevel.length - 1}
         type="range"
         value={sliderValue}
         onChange={(_, { value }) => setSliderValue(parseInt(value))}
