@@ -12,9 +12,10 @@ import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D";
+import esriConfig from "@arcgis/core/config";
 
 export const MapPage: React.FC<{}> = () => {
-  const [sliderValue, setSliderValue] = React.useState(1)
+  const [sliderValue, setSliderValue] = React.useState(1);
   const [lastUpdated, setLastUpdated] = React.useState(Date.now());
   const mapEl = React.useRef(null);
 
@@ -33,54 +34,49 @@ export const MapPage: React.FC<{}> = () => {
       },
     });
 
-
     // Polygon
     const fillSymbol = new PolygonSymbol3D({
-
-        symbolLayers: [
-            {
-                type: "water",
-                waveDirection: 180,
-                color: "#5975a3",
-                waveStrength: "moderate",
-                waterbodySize: "medium"
-             }
-            ]
-
-        });
+      symbolLayers: [
+        {
+          type: "water",
+          waveDirection: 180,
+          color: "#5975a3",
+          waveStrength: "moderate",
+          waterbodySize: "medium",
+        },
+      ],
+    });
 
     // Polygon location
     const rings = [
-        [
-          [8.615599, 47.289842, -60],
-          [8.615599, 47.599842, -60],
-          [8.305599, 47.599842, -60],
-          [8.305599, 47.289842, -60],
-          [8.615599, 47.289842, -60],
-        ],
-    ]
+      [
+        [8.615599, 47.289842, -60],
+        [8.615599, 47.599842, -60],
+        [8.305599, 47.599842, -60],
+        [8.305599, 47.289842, -60],
+        [8.615599, 47.289842, -60],
+      ],
+    ];
     const polygon = new Polygon({
-        hasZ: true,
-        hasM: false,
-        rings: rings,
-        spatialReference: { wkid: 4326 }
+      hasZ: true,
+      hasM: false,
+      rings: rings,
+      spatialReference: { wkid: 4326 },
     });
 
     const polygonGraphic = new Graphic({
       geometry: polygon,
-      symbol: fillSymbol
+      symbol: fillSymbol,
     });
 
     // Graphic Layer
     const graphicsLayer = new GraphicsLayer({
-          elevationInfo: {
-            mode: "relative-to-scene"
-          },
-
+      elevationInfo: {
+        mode: "relative-to-scene",
+      },
     });
     graphicsLayer.add(polygonGraphic);
     map.add(graphicsLayer);
-
 
     // Set scene view
     const view = new SceneView({
@@ -90,8 +86,6 @@ export const MapPage: React.FC<{}> = () => {
       zoom: 15,
       container: mapEl.current,
     });
-
-
 
     // For debug
     //(window as any)["view"] = view;
@@ -154,15 +148,14 @@ export const MapPage: React.FC<{}> = () => {
       <div style={{ height: 480 }} ref={mapEl} />;
       <div>TODO: some widget here</div>
       <SR.Button content="Change My Color" onClick={onClick} />
-
       {`Time ${sliderValue}`}
       <SR.Input
         min={1}
         max={9}
-        type='range'
+        type="range"
         value={sliderValue}
-        onChange={(_, {value}) => setSliderValue(parseInt(value))}
+        onChange={(_, { value }) => setSliderValue(parseInt(value))}
       />
     </SR.Container>
-  )
-}
+  );
+};

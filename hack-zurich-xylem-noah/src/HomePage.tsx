@@ -5,9 +5,11 @@ import * as RD from "react-router-dom";
 export const HomePage: React.FC<{}> = () => {
   return (
     <SR.Container fluid>
-      <h2 style={{textAlign: "center"}}>Noah</h2>
+      <h2 style={{ textAlign: "center" }}>Noah</h2>
       <SR.Segment inverted color="yellow" style={{ height: "320px" }}>
-        <h3 style={{color:"black"}}>Flood Status: continuous rainfall for 6 hours.</h3>
+        <h3 style={{ color: "black" }}>
+          Flood Status: continuous rainfall for 6 hours.
+        </h3>
       </SR.Segment>
 
       <SR.Grid fluid>
@@ -23,7 +25,9 @@ export const HomePage: React.FC<{}> = () => {
       </SR.Grid>
 
       <SR.Segment inverted color="red" style={{ height: "320px" }}>
-        <h3 style={{color:"white"}}>User Status: Please follow this navigation to shelter.</h3>
+        <h3 style={{ color: "white" }}>
+          User Status: Please follow this navigation to shelter.
+        </h3>
       </SR.Segment>
 
       <SR.Grid fluid>
