@@ -15,13 +15,18 @@ import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D";
 import esriConfig from "@arcgis/core/config";
 
 // Time - flood level array
-const time_floodLevel = [-80, -75, -70, -65, -62, -60, -57, -53, -50, -45, -40, -35];
+const time_floodLevel: number[] = [];
+for (let i=-80; i < -35; i+=0.01) {
+  time_floodLevel.push(i)
+}
 
 
 export const MapPage: React.FC<{}> = () => {
   const [sliderValue, setSliderValue] = React.useState(0);
   const [lastUpdated, setLastUpdated] = React.useState(Date.now());
   const mapEl = React.useRef(null);
+
+  const [polygonGraphic0, setPolygonGraphic0] = React.useState(null)
 
   const pointLayerUrl =
     "https://services3.arcgis.com/Xr0XohUodMm3WJYC/arcgis/rest/services/my_points/FeatureServer/0";
@@ -73,6 +78,7 @@ export const MapPage: React.FC<{}> = () => {
       geometry: polygon,
       symbol: fillSymbol,
     });
+    setPolygonGraphic0(polygonGraphic)
 
     // Graphic Layer
     const graphicsLayer = new GraphicsLayer({
@@ -102,7 +108,7 @@ export const MapPage: React.FC<{}> = () => {
         view.destroy();
       }
     };
-  }, [lastUpdated, sliderValue]);
+  }, [lastUpdated]);
 
   // Dummy button that cycles the color at fixed ID (at Technopark).
   const onClick = () => {
@@ -148,18 +154,41 @@ export const MapPage: React.FC<{}> = () => {
       });
   };
 
+  const onSliderChange = (index: number) => {
+    console.log(index)
+    setSliderValue(index)
+    const floodLevel = time_floodLevel[sliderValue];
+    polygonGraphic0.geometry = new Polygon({
+      hasZ: true,
+      hasM: false,
+      rings: [
+        [
+          [8.615599, 47.289842, floodLevel],
+          [8.615599, 47.599842, floodLevel],
+          [8.305599, 47.599842, floodLevel],
+          [8.305599, 47.289842, floodLevel],
+          [8.615599, 47.289842, floodLevel],
+        ],
+      ],
+      spatialReference: { wkid: 4326 },
+    });
+  }
+
+
   return (
     <SR.Container>
-      <div style={{ height: 480 }} ref={mapEl} />;
-      <div>TODO: some widget here</div>
+      <div style={{ height: 720 }} ref={mapEl} />
       <SR.Button content="Change My Color" onClick={onClick} />
+      <br />
       {`Time ${sliderValue}`}
+      <br />
       <SR.Input
+        fluid
         min={0}
         max={time_floodLevel.length - 1}
         type="range"
         value={sliderValue}
-        onChange={(_, { value }) => setSliderValue(parseInt(value))}
+        onChange={(_, { value }) => onSliderChange(parseInt(value))}
       />
     </SR.Container>
   );
