@@ -90,7 +90,7 @@ export const MapPage: React.FC<{}> = () => {
     // For debug
     //(window as any)["view"] = view;
 
-    // Destuctor
+    // Destructor
     return () => {
       // clean up the map view
       if (!!view) {

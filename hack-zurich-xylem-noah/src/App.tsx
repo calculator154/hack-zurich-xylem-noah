@@ -5,6 +5,7 @@ import "semantic-ui-css/semantic.min.css";
 import { HomePage } from "./HomePage";
 import { CheckupPage } from "./CheckupPage";
 import { MapPage } from "./MapPage";
+import { NavigatePage } from "./NavigatePage";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
           </RD.Route>
           <RD.Route path="/checkup">
             <CheckupPage />
+          </RD.Route>
+          <RD.Route path="/navigate">
+            <NavigatePage />
           </RD.Route>
           <RD.Route exact path="/">
             <HomePage />

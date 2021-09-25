@@ -40,6 +40,13 @@ export const HomePage: React.FC<{}> = () => {
             <SR.Button fluid content="Recommendation" />
           </SR.Grid.Column>
         </SR.Grid.Row>
+
+        <SR.Grid.Row>
+          <SR.Grid.Column width={16}>
+            <SR.Button fluid content="Navigate to nearest shelter." to={"/navigate"} />
+          </SR.Grid.Column>
+        </SR.Grid.Row>
+
       </SR.Grid>
     </SR.Container>
   );

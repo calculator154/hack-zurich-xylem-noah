@@ -62,7 +62,7 @@ export const CheckupPage: React.FC<{}> = () => {
             <SR.Radio
               label={"I'm hungry!"}
               name="radioGroup"
-              value={1}
+              value={2}
               checked={rationChoice === 2}
               onChange={(_, { value }) => setRationChoice(value as number)}
             />
@@ -78,7 +78,7 @@ export const CheckupPage: React.FC<{}> = () => {
               label={"I'm in my private residence."}
               name="radioGroup"
               value={0}
-              checked={locationChoice == 0}
+              checked={locationChoice === 0}
               onChange={(_, { value }) => setLocationChoice(value as number)}
             />
           </SR.Form.Field>
