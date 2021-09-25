@@ -10,7 +10,12 @@ import { NavigatePage } from "./NavigatePage";
 
 function App() {
   return (
-    <SR.Container fluid>
+
+    <SR.Container fluid style={{
+        backgroundImage: `url(bg.jpg)`,
+        width:'375px' ,
+        height:'812px'
+        }}>
       <RD.BrowserRouter>
         <RD.Switch>
           <RD.Route path="/recommendation">
