@@ -4,9 +4,13 @@ import MapView from "@arcgis/core/views/MapView";
 import EsriMap from "@arcgis/core/Map";
 import WebMap from "@arcgis/core/WebMap";
 import WebScene from "@arcgis/core/WebScene";
+import Map from "@arcgis/core/Map";
+// import PortalItem from "@arcgis/core/portal/PortalItem";
 import SceneView from "@arcgis/core/views/SceneView";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import esriConfig from "@arcgis/core/config";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Graphic from "@arcgis/core/Graphic";
+import Polygon from "@arcgis/core/geometry/Polygon";
 
 export const MapPage: React.FC<{}> = () => {
   const [sliderValue, setSliderValue] = React.useState(1)
@@ -20,24 +24,89 @@ export const MapPage: React.FC<{}> = () => {
     esriConfig.apiKey =
       "AAPKbf906662f3f541699e74af02fc20a277vh1Dfjb5u5kUN-j3HNwgrQGMrEtCsrLJTveSRLp2ITsYDNQ2E5f0dijbWQ01x1tx";
 
-    //     const map = new EsriMap({
-    //       basemap: "streets-vector",
-    //     });
-
     const map = new WebMap({
-      basemap: "streets-vector",
+      basemap: "topo",
+      ground: "world-elevation",
       portalItem: {
         id: "6d5420d3580648c89c9bc3b72f530e5a",
       },
     });
 
-    let view = new MapView({
+    // Graphic Layer
+    const graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+
+
+    // Polygon
+
+    const fillSymbol = {
+      type: "simple-fill", // autocasts as new SimpleFillSymbol()
+      color: "blue",
+      outline: {
+        // autocasts as new SimpleLineSymbol()
+        color: "blue",
+        width: 2
+      }
+    };
+
+    //const fillSymbol = {
+    //  type: "polygon-3d",  // autocasts as new PolygonSymbol3D()
+    //  symbolLayers: [{
+    //    type: "fill",  // autocasts as new FillSymbol3DLayer()
+    //    material: { color: "red" }
+    //  }]
+    //};
+
+
+    // Polygon location
+    const rings = [[
+      [8.515599, 47.389842, 490],
+      [8.515599, 47.399842, 490],
+      [8.505599, 47.399842, 490],
+      [8.505599, 47.389842, 490],
+      [8.515599, 47.389842, 490],
+    ], [
+      [8.515599, 47.389842, 0],
+      [8.515599, 47.399842, 0],
+      [8.505599, 47.399842, 0],
+      [8.505599, 47.389842, 0],
+      [8.515599, 47.389842, 0],
+
+    ]]
+    const polygon = new Polygon({
+        hasZ: true,
+        hasM: true,
+        rings: rings,
+        spatialReference: { wkid: 4326 }
+    });
+
+    const polygonGraphic = new Graphic({
+      geometry: polygon,
+      symbol: fillSymbol
+    });
+
+    graphicsLayer.add(polygonGraphic);
+
+
+
+    //// Set map view
+    //let view = new MapView({
+    //  map: map,
+    //  center: [8.515599, 47.389842],  // Zurich: 47.3769° N, 8.5417° E
+    //  zoom: 12,
+    //  container: mapEl.current
+    //})
+
+    // Set scene view
+    const view = new SceneView({
+      // An instance of Map or WebScene
       map: map,
       center: [8.515599, 47.389842], // Zurich: 47.3769° N, 8.5417° E
-      zoom: 12,
+      zoom: 15,
       container: mapEl.current,
     });
 
+    // Destuctor
     return () => {
       // clean up the map view
       if (!!view) {
@@ -105,5 +174,5 @@ export const MapPage: React.FC<{}> = () => {
         onChange={(_, {value}) => setSliderValue(parseInt(value))}
       />
     </SR.Container>
-  );
-};
+  )
+}
