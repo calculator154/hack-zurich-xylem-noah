@@ -11,6 +11,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
 import Polygon from "@arcgis/core/geometry/Polygon";
+import PolygonSymbol3D from "@arcgis/core/symbols/PolygonSymbol3D";
 
 export const MapPage: React.FC<{}> = () => {
   const [sliderValue, setSliderValue] = React.useState(1)
@@ -32,31 +33,36 @@ export const MapPage: React.FC<{}> = () => {
       },
     });
 
-    // Graphic Layer
-    const graphicsLayer = new GraphicsLayer();
-    map.add(graphicsLayer);
-
 
     // Polygon
 
-    const fillSymbol = {
-      type: "simple-fill", // autocasts as new SimpleFillSymbol()
-      color: "blue",
-      outline: {
-        // autocasts as new SimpleLineSymbol()
-        color: "blue",
-        width: 2
-      }
-    };
-
     //const fillSymbol = {
-    //  type: "polygon-3d",  // autocasts as new PolygonSymbol3D()
-    //  symbolLayers: [{
-    //    type: "fill",  // autocasts as new FillSymbol3DLayer()
-    //    material: { color: "red" }
-    //  }]
+    //  type: Po, // autocasts as new SimpleFillSymbol()
+    //  color: "blue",
+    //  outline: {
+    //    // autocasts as new SimpleLineSymbol()
+    //    color: "blue",
+    //    width: 2
+    //  }
     //};
 
+    const fillSymbol = new PolygonSymbol3D({
+
+        symbolLayers: [
+        {
+            type: "fill",
+            material: {color:  "red"}
+            }
+            //{
+            //    type: "water",
+            //    waveDirection: 180,
+            //    color: "#5975a3",
+            //    waveStrength: "moderate",
+            //    waterbodySize: "medium"
+            // }
+            ]
+
+        });
 
     // Polygon location
     const rings = [[
@@ -71,11 +77,10 @@ export const MapPage: React.FC<{}> = () => {
       [8.505599, 47.399842, 0],
       [8.505599, 47.389842, 0],
       [8.515599, 47.389842, 0],
-
     ]]
     const polygon = new Polygon({
         hasZ: true,
-        hasM: true,
+        hasM: false,
         rings: rings,
         spatialReference: { wkid: 4326 }
     });
@@ -85,7 +90,15 @@ export const MapPage: React.FC<{}> = () => {
       symbol: fillSymbol
     });
 
+    // Graphic Layer
+    const graphicsLayer = new GraphicsLayer({
+          elevationInfo: {
+            mode: "on-the-ground"
+          },
+
+    });
     graphicsLayer.add(polygonGraphic);
+    map.add(graphicsLayer);
 
 
 
@@ -105,6 +118,8 @@ export const MapPage: React.FC<{}> = () => {
       zoom: 15,
       container: mapEl.current,
     });
+
+    (window as any)["view"] = view;
 
     // Destuctor
     return () => {
