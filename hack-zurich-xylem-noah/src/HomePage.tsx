@@ -37,7 +37,7 @@ export const HomePage: React.FC<{}> = () => {
           </SR.Grid.Column>
 
           <SR.Grid.Column width={8}>
-            <SR.Button fluid content="Recommendation" />
+            <SR.Button fluid as={RD.Link} content="Recommendation" to={"/recommendation"} />
           </SR.Grid.Column>
         </SR.Grid.Row>
 
