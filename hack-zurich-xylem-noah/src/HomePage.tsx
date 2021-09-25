@@ -5,14 +5,25 @@ import * as RD from "react-router-dom";
 export const HomePage: React.FC<{}> = () => {
   return (
     <SR.Container fluid>
+      <h2 style={{textAlign: "center"}}>Noah</h2>
       <SR.Segment inverted color="yellow" style={{ height: "320px" }}>
-        Flood Status: continuous rainfall for 6 hours.
+        <h3 style={{color:"black"}}>Flood Status: continuous rainfall for 6 hours.</h3>
       </SR.Segment>
 
-      <SR.Button as={RD.Link} content="Map" to={"/map"} />
+      <SR.Grid fluid>
+        <SR.Grid.Row fluid>
+          <SR.Grid.Column width={8}>
+            <SR.Button fluid as={RD.Link} content="Map" to={"/map"} />
+          </SR.Grid.Column>
+
+          <SR.Grid.Column width={8}>
+            <SR.Button fluid content="Latest News" />
+          </SR.Grid.Column>
+        </SR.Grid.Row>
+      </SR.Grid>
 
       <SR.Segment inverted color="red" style={{ height: "320px" }}>
-        User Status: Need Shelter
+        <h3 style={{color:"white"}}>User Status: Please follow this navigation to shelter.</h3>
       </SR.Segment>
 
       <SR.Grid fluid>

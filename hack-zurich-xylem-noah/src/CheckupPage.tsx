@@ -10,7 +10,7 @@ export const CheckupPage: React.FC<{}> = () => {
     <SR.Container>
       <SR.Segment>
         <SR.Form>
-          How is your health condition?
+          <h3>How is your health condition?</h3>
           <SR.Form.Field>
             <SR.Radio
               label={"I'm in good heath, with no/negligible injury."}
@@ -34,7 +34,7 @@ export const CheckupPage: React.FC<{}> = () => {
 
       <SR.Segment>
         <SR.Form>
-          {"Do you have access to food & fresh water?"}
+          <h3>{"Do you have access to food & fresh water?"}</h3>
           <SR.Form.Field>
             <SR.Radio
               label={"I've access to food and water up to the foreseeable future."}
@@ -69,7 +69,7 @@ export const CheckupPage: React.FC<{}> = () => {
 
       <SR.Segment>
         <SR.Form>
-          {"Where are you?"}
+          <h3>{"Where are you?"}</h3>
           <SR.Form.Field>
             <SR.Radio
               label={"I'm in my private residence."}
@@ -95,7 +95,7 @@ export const CheckupPage: React.FC<{}> = () => {
 
       <SR.Button
         fluid
-        content="Update my Check Up."
+        content="Update my Check Up"
       />
 
     </SR.Container>
