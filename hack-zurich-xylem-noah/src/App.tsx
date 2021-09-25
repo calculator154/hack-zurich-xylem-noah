@@ -5,6 +5,7 @@ import "semantic-ui-css/semantic.min.css";
 import { HomePage } from "./HomePage";
 import { CheckupPage } from "./CheckupPage";
 import { MapPage } from "./MapPage";
+import { Recommendation } from "./Recommendation";
 import { NavigatePage } from "./NavigatePage";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 
@@ -47,6 +48,9 @@ function App() {
     <SR.Container fluid>
       <RD.BrowserRouter>
         <RD.Switch>
+          <RD.Route path="/recommendation">
+            <Recommendation />
+          </RD.Route>
           <RD.Route path="/map">
             <MapPage />
           </RD.Route>
