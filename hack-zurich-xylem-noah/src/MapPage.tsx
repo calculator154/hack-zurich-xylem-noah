@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import * as SR from "semantic-ui-react";
 import MapView from "@arcgis/core/views/MapView";
@@ -10,6 +9,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import esriConfig from "@arcgis/core/config";
 
 export const MapPage: React.FC<{}> = () => {
+  const [sliderValue, setSliderValue] = React.useState(1)
   const [lastUpdated, setLastUpdated] = React.useState(Date.now());
   const mapEl = React.useRef(null);
 
@@ -95,6 +95,15 @@ export const MapPage: React.FC<{}> = () => {
       <div style={{ height: 480 }} ref={mapEl} />;
       <div>TODO: some widget here</div>
       <SR.Button content="Change My Color" onClick={onClick} />
+
+      {`Time ${sliderValue}`}
+      <SR.Input
+        min={1}
+        max={9}
+        type='range'
+        value={sliderValue}
+        onChange={(_, {value}) => setSliderValue(parseInt(value))}
+      />
     </SR.Container>
   );
 };
