@@ -1,10 +1,51 @@
 import React from "react";
 import * as SR from "semantic-ui-react";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 
-export const CheckupPage: React.FC<{}> = () => {
+interface HomePageProps {
+  userFeature: any;
+  pointsLayer: FeatureLayer;
+}
+
+export const CheckupPage: React.FC<HomePageProps> = (props) => {
+  const [loading, setLoading] = React.useState(false);
   const [healthChoice, setHealthChoice] = React.useState(0);
   const [rationChoice, setRationChoice] = React.useState(0);
   const [locationChoice, setLocationChoice] = React.useState(0);
+
+  // Here, it should do the logic to classify the user's status
+  // into 3 categories: green/yellow/red. It should also update
+  // user's input in order to have an aggregate map of the inputs.
+  // For example, we'd be able to see all users that reports being
+  // injured, so that the medical rescue can know where.
+  const onSubmit = () => {
+    setLoading(true);
+    // In this mockup, just cycle between green -> yellow -> red.
+    switch (props.userFeature.attributes["name"]) {
+      case "green":
+        props.userFeature.attributes["name"] = "yellow";
+        break;
+      case "yellow":
+        props.userFeature.attributes["name"] = "red";
+        break;
+      case "red":
+        props.userFeature.attributes["name"] = "green";
+        break;
+    }
+
+    // Submit the change to the cloud.
+    props.pointsLayer
+      .applyEdits({ updateFeatures: [props.userFeature] })
+      .then((response: any) => {
+        console.log(response);
+        setLoading(false);
+        window.location.href = "/";
+      })
+      .catch((error: any) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
 
   return (
     <SR.Container>
@@ -96,7 +137,12 @@ export const CheckupPage: React.FC<{}> = () => {
 
       {"etc.!"}
 
-      <SR.Button fluid content="Update my Check Up" />
+      <SR.Button
+        fluid
+        content="Update my Check Up"
+        loading={loading}
+        onClick={() => onSubmit()}
+      />
     </SR.Container>
   );
 };

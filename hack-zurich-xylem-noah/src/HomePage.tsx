@@ -2,11 +2,24 @@ import React from "react";
 import * as SR from "semantic-ui-react";
 import * as RD from "react-router-dom";
 
-export const HomePage: React.FC<{}> = () => {
+interface HomePageProps {
+  loading: boolean;
+  userFeature: any;
+}
+
+export const HomePage: React.FC<HomePageProps> = (props) => {
+  const userColor =
+    props.userFeature == null ? "green" : props.userFeature.attributes["name"];
+
   return (
     <SR.Container fluid>
       <h2 style={{ textAlign: "center" }}>Noah</h2>
-      <SR.Segment inverted color="yellow" style={{ height: "320px" }}>
+      <SR.Segment
+        inverted
+        loading={props.loading}
+        color="yellow"
+        style={{ height: "320px" }}
+      >
         <h3 style={{ color: "black" }}>
           Flood Status: continuous rainfall for 6 hours.
         </h3>
@@ -24,7 +37,12 @@ export const HomePage: React.FC<{}> = () => {
         </SR.Grid.Row>
       </SR.Grid>
 
-      <SR.Segment inverted color="red" style={{ height: "320px" }}>
+      <SR.Segment
+        inverted
+        loading={props.loading}
+        color={userColor}
+        style={{ height: "320px" }}
+      >
         <h3 style={{ color: "white" }}>
           User Status: Please follow this navigation to shelter.
         </h3>
@@ -43,10 +61,13 @@ export const HomePage: React.FC<{}> = () => {
 
         <SR.Grid.Row>
           <SR.Grid.Column width={16}>
-            <SR.Button fluid content="Navigate to nearest shelter." to={"/navigate"} />
+            <SR.Button
+              fluid
+              content="Navigate to nearest shelter."
+              to={"/navigate"}
+            />
           </SR.Grid.Column>
         </SR.Grid.Row>
-
       </SR.Grid>
     </SR.Container>
   );

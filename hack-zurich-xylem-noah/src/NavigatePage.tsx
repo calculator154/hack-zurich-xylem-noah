@@ -10,10 +10,9 @@ import esriConfig from "@arcgis/core/config";
 import Point from "@arcgis/core/geometry/Point";
 import Graphic from "@arcgis/core/Graphic";
 
-
 export const NavigatePage: React.FC<{}> = () => {
   const mapEl = React.useRef(null);
-  const [view2, setView2] = React.useState(null)
+  const [view2, setView2] = React.useState(null);
 
   React.useEffect(() => {
     esriConfig.apiKey =
@@ -32,7 +31,7 @@ export const NavigatePage: React.FC<{}> = () => {
       zoom: 12,
       container: mapEl.current,
     });
-    setView2(view)
+    setView2(view);
 
     // Destructor
     return () => {
@@ -40,81 +39,80 @@ export const NavigatePage: React.FC<{}> = () => {
       if (!!view) {
         view.destroy();
       }
-    }
-  }, [])
+    };
+  }, []);
 
-//   const showNavigate1 = () => {
-//     console.log(view2)
-//
-//     const directionsViewModel = new DirectionsViewModel({
-//       view: view2
-//     })
-//
-//     directionsViewModel.load().then(() => {
-//       console.log('loaded')
-//
-//       directionsViewModel.stops.removeAll();
-//
-//       var start = new Graphic({
-//         geometry: new Point({
-//           latitude: 47.389842,
-//           longitude: 8.515599
-//         })
-//       })
-//       var stop = new Graphic({
-//         geometry: new Point({
-//           latitude: 47.381027568318174,
-//           longitude: 8.53730827723053
-//         })
-//       })
-//       directionsViewModel.stops.addMany([start, stop]);
-//
-//       // find the 'Walking Time' travel mode of the widget
-//       const walkingTravelMode = directionsViewModel.travelModes.find((mode:any) => mode.name === "Walking Time");
-//       console.log(walkingTravelMode)
-//       if (walkingTravelMode) {
-//         (directionsViewModel as any).selectedTravelMode = walkingTravelMode;
-//       }
-//
-//       directionsViewModel.getDirections().then((routeResult: any) => {
-//         console.log(routeResult)
-//       })
-//     })
-//   }
+  //   const showNavigate1 = () => {
+  //     console.log(view2)
+  //
+  //     const directionsViewModel = new DirectionsViewModel({
+  //       view: view2
+  //     })
+  //
+  //     directionsViewModel.load().then(() => {
+  //       console.log('loaded')
+  //
+  //       directionsViewModel.stops.removeAll();
+  //
+  //       var start = new Graphic({
+  //         geometry: new Point({
+  //           latitude: 47.389842,
+  //           longitude: 8.515599
+  //         })
+  //       })
+  //       var stop = new Graphic({
+  //         geometry: new Point({
+  //           latitude: 47.381027568318174,
+  //           longitude: 8.53730827723053
+  //         })
+  //       })
+  //       directionsViewModel.stops.addMany([start, stop]);
+  //
+  //       // find the 'Walking Time' travel mode of the widget
+  //       const walkingTravelMode = directionsViewModel.travelModes.find((mode:any) => mode.name === "Walking Time");
+  //       console.log(walkingTravelMode)
+  //       if (walkingTravelMode) {
+  //         (directionsViewModel as any).selectedTravelMode = walkingTravelMode;
+  //       }
+  //
+  //       directionsViewModel.getDirections().then((routeResult: any) => {
+  //         console.log(routeResult)
+  //       })
+  //     })
+  //   }
 
   const showNavigate = () => {
     var start = new Point({
       latitude: 47.389842,
-      longitude: 8.515599
+      longitude: 8.515599,
     });
     var stop = new Point({
       latitude: 47.381027568318174,
-      longitude: 8.53730827723053
+      longitude: 8.53730827723053,
     });
 
     const routeParams = new RouteParameters({
       stops: new FeatureSet({
         features: [
-          new Graphic({geometry: start}),
-          new Graphic({geometry: stop}),
-        ]
-      })
-    })
+          new Graphic({ geometry: start }),
+          new Graphic({ geometry: stop }),
+        ],
+      }),
+    });
 
-    const routeUrl = "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"
-    route.solve(routeUrl, routeParams)
-    .then((data) => {
+    const routeUrl =
+      "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
+    route.solve(routeUrl, routeParams).then((data) => {
       (data as any).routeResults.forEach((result: any) => {
         result.route.symbol = {
           type: "simple-line",
           color: [5, 150, 255],
-          width: 3
+          width: 3,
         };
         view2.graphics.add(result.route);
       });
-    })
-
-  }
+    });
+  };
 
   return (
     <SR.Container>
@@ -124,5 +122,5 @@ export const NavigatePage: React.FC<{}> = () => {
         onClick={() => showNavigate()}
       />
     </SR.Container>
-  )
-}
+  );
+};

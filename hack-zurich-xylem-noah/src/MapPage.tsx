@@ -16,20 +16,15 @@ import esriConfig from "@arcgis/core/config";
 
 // Time - flood level array
 const time_floodLevel: number[] = [];
-for (let i=-80; i < -35; i+=0.01) {
-  time_floodLevel.push(i)
+for (let i = -80; i < -35; i += 0.01) {
+  time_floodLevel.push(i);
 }
-
 
 export const MapPage: React.FC<{}> = () => {
   const [sliderValue, setSliderValue] = React.useState(0);
-  const [lastUpdated, setLastUpdated] = React.useState(Date.now());
   const mapEl = React.useRef(null);
 
-  const [polygonGraphic0, setPolygonGraphic0] = React.useState(null)
-
-  const pointLayerUrl =
-    "https://services3.arcgis.com/Xr0XohUodMm3WJYC/arcgis/rest/services/my_points/FeatureServer/0";
+  const [polygonGraphic0, setPolygonGraphic0] = React.useState(null);
 
   React.useEffect(() => {
     esriConfig.apiKey =
@@ -78,7 +73,7 @@ export const MapPage: React.FC<{}> = () => {
       geometry: polygon,
       symbol: fillSymbol,
     });
-    setPolygonGraphic0(polygonGraphic)
+    setPolygonGraphic0(polygonGraphic);
 
     // Graphic Layer
     const graphicsLayer = new GraphicsLayer({
@@ -108,55 +103,11 @@ export const MapPage: React.FC<{}> = () => {
         view.destroy();
       }
     };
-  }, [lastUpdated]);
-
-  // Dummy button that cycles the color at fixed ID (at Technopark).
-  const onClick = () => {
-    const pointsLayer = new FeatureLayer({ url: pointLayerUrl });
-    pointsLayer
-      .queryFeatures({
-        where: "id = 12345678",
-        outFields: ["*"],
-      })
-      .then((response) => {
-        if (response.features.length > 0) {
-          const editFeature = response.features[0];
-          console.log(editFeature);
-
-          // Swap between green -> yellow -> red.
-          switch (editFeature.attributes["name"]) {
-            case "green":
-              editFeature.attributes["name"] = "yellow";
-              break;
-            case "yellow":
-              editFeature.attributes["name"] = "red";
-              break;
-            case "red":
-              editFeature.attributes["name"] = "green";
-              break;
-          }
-
-          // Submit the change to the cloud.
-          pointsLayer
-            .applyEdits({ updateFeatures: [editFeature] })
-            .then((response) => {
-              console.log(response);
-              // Trigger reload on useEffect.
-              setLastUpdated(Date.now());
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  }, []);
 
   const onSliderChange = (index: number) => {
-    console.log(index)
-    setSliderValue(index)
+    console.log(index);
+    setSliderValue(index);
     const floodLevel = time_floodLevel[sliderValue];
     polygonGraphic0.geometry = new Polygon({
       hasZ: true,
@@ -172,13 +123,11 @@ export const MapPage: React.FC<{}> = () => {
       ],
       spatialReference: { wkid: 4326 },
     });
-  }
-
+  };
 
   return (
     <SR.Container>
       <div style={{ height: 720 }} ref={mapEl} />
-      <SR.Button content="Change My Color" onClick={onClick} />
       <br />
       {`Time ${sliderValue}`}
       <br />
