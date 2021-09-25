@@ -7,6 +7,7 @@ import WebScene from "@arcgis/core/WebScene";
 // import Map from "@arcgis/core/Map";
 // import PortalItem from "@arcgis/core/portal/PortalItem";
 import SceneView from "@arcgis/core/views/SceneView";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer"
 
 
 export const MapPage: React.FC<{}> = () => {
@@ -14,34 +15,19 @@ export const MapPage: React.FC<{}> = () => {
 
   React.useEffect(() =>  {
 
-//     const map = new EsriMap({
-//       basemap: "streets-vector",
-//     });
-
-    const map = new WebMap({
-//       basemap: "streets-vector",
-      portalItem: {
-        id: "9828dc09e28445c283f694fb60b7a99f"
-      }
+    const map = new EsriMap({
+      basemap: "streets-vector",
     });
 
-
-    const scene = new WebScene({
-//       basemap: "streets-vector",
-      portalItem: {
-        id: "9828dc09e28445c283f694fb60b7a99f"
-      }
+    const pointsLayer = new FeatureLayer({
+      url: "https://services3.arcgis.com/Xr0XohUodMm3WJYC/arcgis/rest/services/my_points/FeatureServer/0"
     });
+    map.add(pointsLayer)
 
-//     let view = new MapView({
-//       map: map,
-// //       center: [-118.244, 34.052],
-// //       zoom: 12,
-// //       container: mapEl.current
-//     })
-
-    let view = new SceneView({
-      map: scene,
+    let view = new MapView({
+      map: map,
+      center: [8.515599, 47.389842],  // Zurich: 47.3769° N, 8.5417° E
+      zoom: 12,
       container: mapEl.current
     })
 
