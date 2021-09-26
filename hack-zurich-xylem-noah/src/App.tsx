@@ -45,12 +45,14 @@ function App() {
   }, []);
 
   return (
-
-    <SR.Container fluid style={{
+    <SR.Container
+      fluid
+      style={{
         backgroundImage: `url(bg.jpg)`,
-        width:'375px' ,
-        height:'812px'
-        }}>
+        width: "375px",
+        height: "812px",
+      }}
+    >
       <RD.BrowserRouter>
         <RD.Switch>
           <RD.Route path="/recommendation">

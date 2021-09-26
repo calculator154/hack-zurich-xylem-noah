@@ -18,7 +18,7 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
         inverted
         loading={props.loading}
         color="yellow"
-        style={{ height: "320px" }}
+        style={{ height: "320px", marginLeft: "32px", marginRight: "32px" }}
       >
         <h3 style={{ color: "black" }}>
           Flood Status: continuous rainfall for 6 hours.
@@ -41,7 +41,7 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
         inverted
         loading={props.loading}
         color={userColor}
-        style={{ height: "320px" }}
+        style={{ height: "320px", marginLeft: "32px", marginRight: "32px" }}
       >
         <h3 style={{ color: "white" }}>
           User Status: Please follow this navigation to shelter.
@@ -55,7 +55,12 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
           </SR.Grid.Column>
 
           <SR.Grid.Column width={8}>
-            <SR.Button fluid as={RD.Link} content="Recommendation" to={"/recommendation"} />
+            <SR.Button
+              fluid
+              as={RD.Link}
+              content="Recommendation"
+              to={"/recommendation"}
+            />
           </SR.Grid.Column>
         </SR.Grid.Row>
 
@@ -63,6 +68,7 @@ export const HomePage: React.FC<HomePageProps> = (props) => {
           <SR.Grid.Column width={16}>
             <SR.Button
               fluid
+              as={RD.Link}
               content="Navigate to nearest shelter."
               to={"/navigate"}
             />

@@ -126,7 +126,7 @@ export const MapPage: React.FC<{}> = () => {
   };
 
   return (
-    <SR.Container>
+    <SR.Container style={{ backgroundColor: "white" }}>
       <div style={{ height: 720 }} ref={mapEl} />
       <br />
       {`Time ${sliderValue}`}
