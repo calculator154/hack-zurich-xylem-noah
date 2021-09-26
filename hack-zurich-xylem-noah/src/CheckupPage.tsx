@@ -20,16 +20,17 @@ export const CheckupPage: React.FC<HomePageProps> = (props) => {
   // injured, so that the medical rescue can know where.
   const onSubmit = () => {
     setLoading(true);
-    // In this mockup, just cycle between green -> yellow -> red.
-    switch (props.userFeature.attributes["name"]) {
-      case "green":
+    // In this mockup, green when every answer is positive.
+    // Yellow when one answer is negative, otherwise red.
+    switch (healthChoice + rationChoice + locationChoice) {
+      case 0:
+        props.userFeature.attributes["name"] = "green";
+        break;
+      case 1:
         props.userFeature.attributes["name"] = "yellow";
         break;
-      case "yellow":
+      default:
         props.userFeature.attributes["name"] = "red";
-        break;
-      case "red":
-        props.userFeature.attributes["name"] = "green";
         break;
     }
 
